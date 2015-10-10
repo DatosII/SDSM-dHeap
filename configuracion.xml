@@ -1,0 +1,15 @@
+<SDSConfiguration>
+	<SDS>
+		<Node>
+			<IP>172.26.101.82</IP>
+			<Puerto>6000</Puerto>
+		</Node>
+
+	</SDS>
+	<GC>
+		<gc-Frecuency>5</gc-Frecuency>
+	</GC>
+	<Debug>
+		<Boolean>true</Boolean>
+	</Debug>
+</SDSConfiguration>
