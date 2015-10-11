@@ -68,10 +68,19 @@ void* dHeap::getListaMD(){
 }
 
 /**
- * @brief dHeap::dMalloc
- * @param size
- * @param type
- * @return
+ * @brief Método que reserva espacio en algun SDSMNode conectado
+ *
+ * Crea un nuevo d_pointer_size_type con el tipo enviando como parametro,
+ * luego se llama al método request el cual busca algun SDSMNode con espacio,
+ * en donde envia el mensaje con la cantidad de bytes a reservar. Se asigna
+ * al d_pointer creado la dirección de memoria virtual donde se encuentra
+ * el espacio en el dHeap
+ *
+ * @param size Tamaño a reservar
+ *
+ * @param type Tipo de dato
+ *
+ * @return d_pointer_size_type al espacio reservado
  */
 d_pointer_size_type* dHeap::dMalloc(unsigned int size, char type){
 		d_pointer_size_type*  pointer = new d_pointer_size_type();
@@ -85,9 +94,20 @@ d_pointer_size_type* dHeap::dMalloc(unsigned int size, char type){
         return pointer;
 }
 
+
+
 /**
- * @brief dSet Metodo que envia el dato para ser almacenado en el SDS.
- * @param pPointer es el puntero del que tenemos la informacion.
+ * @brief Método que permite almacenar bytes dentro de algun espacio reservado
+ *
+ * Utiliza los parametro del d_pointer para encontrar el SDSMNode donde se reservo
+ * memoria, luego envia el mensaje con los parametros necesarios para que el
+ * SDSMMemoryNode almacene los bytes dentro del espacio reservado
+ *
+ * @param pPointer d_pointer al espacio reservado
+ * @param pBytes Cantidad de bytes a enviar
+ * @param pByStream Bytes a enviar
+ *
+ * @return
  */
 unsigned char* dHeap::dSet(d_pointer_size_type* pPointer, unsigned char* pBytes, unsigned char* pByStream){
     unsigned char* _ip = pPointer->getIp();
@@ -134,10 +154,20 @@ void dHeap::dFree(d_pointer_size_type toFree){
    free(pPtr);
 }
 
+
 /**
- * @brief dHeap::request
- * @param size
- * @return
+ * @brief Método reserva espacio en los SDSMMemoryNode mediante el dCalloc
+ *
+ * Crea el mensaje que se debe enviar, y recorre la lista de SDSMNode hasta encontrar
+ * uno con espacio suficiente para reservar el espacio deseado.
+ * La lista se recorre llevando un offset, el cual es la memoria total del SDSMNode
+ * anterior al que se envio el mensaje; de modo que cuando retorna la direccion
+ * virtual en memoria, se suma este offset
+ *
+ * @param size Cantidad de espacio a reservar
+ * @param pPointer d_pointer con los parametro necesarios para conectar con el SDS
+ *
+ * @return Direccion de memoria virtual
  */
 unsigned int dHeap::request(unsigned int size, d_pointer_size_type* pPointer){
 
@@ -195,9 +225,11 @@ unsigned int dHeap::request(unsigned int size, d_pointer_size_type* pPointer){
 
 
 /**
- * @brief dHeap::intToBytes
- * @param pInt
- * @return
+ * @brief Método que obtiene la representación en bytes de un int
+ *
+ * @param pInt Número al que quieren obtenerse los bytes
+ *
+ * @return Puntero a un arreglo con los bytes del numero
  */
 unsigned char* dHeap::intToBytes(unsigned int pInt){
     unsigned char* bytes= new unsigned char[CUATRO];
@@ -266,10 +298,12 @@ unsigned char* dHeap::stringToBytes(string pString){
 
 
 /**
- * @brief dHeap::makedCalloc
- * @param pOne
- * @param pTwo
- * @return
+ * @brief Método que forma el mensaje para ejecutar un d_calloc
+ *
+ * @param pOne Cadena "d_calloc:"
+ * @param pTwo Arreglo bytes con la cantidad de bytes a reservar
+ *
+ * @return Puntero que une los parametros
  */
 unsigned char* dHeap::makedCalloc(unsigned char* pOne, unsigned char* pTwo){
     unsigned char* pData = (unsigned char*)strcat((char*)pOne, (char*)pTwo);
@@ -279,13 +313,15 @@ unsigned char* dHeap::makedCalloc(unsigned char* pOne, unsigned char* pTwo){
 
 
 /**
- * @brief dHeap::makedSet
- * @param word
- * @param ip
- * @param port
- * @param bytes
- * @param bystream
- * @return
+ * @brief Método que forma el mensaje para ejecutar un d_set
+ *
+ * @param word Cadena "d_set:"
+ * @param ip Arreglo con los bytes de la ip
+ * @param port Arreglo con los bytes del puerto
+ * @param bytes Arreglo con la cantidad de bytes a almacenar
+ * @param bystream Arreglo con los bytes a almacenar
+ *
+ * @return Puntero con la union de todos los parametros
  */
 unsigned char* dHeap::makedSet(unsigned char word[], unsigned char* ip,
                                unsigned char* port, unsigned char* bytes, unsigned char* bystream){
