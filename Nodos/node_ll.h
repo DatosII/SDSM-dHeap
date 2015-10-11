@@ -74,6 +74,8 @@ struct parametrosInicioCliente{
 
         int getPuerto();
 
+		unsigned char *getBytesIp();
+
         pthread_mutex_t getMutex();
 
     private:
@@ -83,6 +85,7 @@ struct parametrosInicioCliente{
         unsigned int _PUERTO;//Numero de puerto por el que conversan
         bool _activo;
         char* _IP;  // Ip de la maquina a la que se conectara
+		unsigned char *_ipBytes;
         int flag;
         char* Msg;
         pthread_t  hiloCliente;
@@ -92,6 +95,7 @@ struct parametrosInicioCliente{
         parametrosInicioCliente* parametros;
         static void* conectarClientes(void *pParametros);
         void setDimension(char* pBuffer);
+		void setUpBytesIP(); //Método que guarda en un arreglo los bytes de la ip
     };
 
 #endif // NODE_LL_H

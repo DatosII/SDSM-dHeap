@@ -15,7 +15,7 @@ LinkedList::LinkedList(): _head(CERO), _tail(CERO)
  */
 void LinkedList::insert(const string &pData1,const string &pData2) {
 
-    Node_LL *newNode = new Node_LL(pData1, pData2);
+	Node_LL *newNode = new Node_LL(pData1, pData2);
     if (_head == CERO){
         _head = _tail = newNode;
     }

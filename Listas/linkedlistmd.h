@@ -47,6 +47,7 @@ public:
     void insert(d_pointer_size_type *pPointer);
     void remove(d_pointer_size_type pPointer);
     Node_MD* find(d_pointer_size_type pPointer);
+	d_pointer_size_type* findByID(unsigned int pID); //Método que busca un d_pointer por su id
     void print();
 
 private:

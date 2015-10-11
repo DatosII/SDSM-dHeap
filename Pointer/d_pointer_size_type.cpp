@@ -8,13 +8,13 @@ d_pointer_size_type::d_pointer_size_type(){
     _type = CERO;
     ID = d_pointer_size_type::_id;
     d_pointer_size_type::_id++;
-    setRef('1');
+	setRef(1);
 }
 
 unsigned int d_pointer_size_type::_id = CERO;
 
 
-int d_pointer_size_type::getID()const{
+unsigned int d_pointer_size_type::getID()const{
     return ID;
 }
 
@@ -34,7 +34,7 @@ char d_pointer_size_type::getType(){
 }
 
 
-char d_pointer_size_type::getRef(){
+int d_pointer_size_type::getRef(){
     return _ref;
 }
 
@@ -56,17 +56,12 @@ void d_pointer_size_type::setSpace(int pSpace){
 
 void d_pointer_size_type::setType(char pType){
     this->_type=pType;
-    switch(pType){
-//    case 'I': _object = new dInt(); break;
-//    case 'C': _object = new dChar(); break;
-//    case 'S': _object = new dString(); break;
-//    case 'F': _object = new dFloat(); break;
-    }
 }
 
 
-void d_pointer_size_type::setRef(char pRef){
-    this->_ref= static_cast<unsigned int>(this->_ref) + static_cast<unsigned int>(pRef);
+void d_pointer_size_type::setRef(int pRef){
+	this->_ref+=pRef;
+	//this->_ref= static_cast<unsigned int>(this->_ref) + static_cast<unsigned int>(pRef);
 }
 
 
@@ -95,6 +90,28 @@ short d_pointer_size_type::getPuerto(){
 
 void d_pointer_size_type::setPuerto(short pPuerto){
     this->_puerto = pPuerto;
+}
+
+
+/**
+ * @brief Método para asignar los bytes de la ip de la
+ * computadora donde posee memoria reservada
+ *
+ * @param pIp Ip en forma de bytes
+ */
+void d_pointer_size_type::setIpBytes(unsigned char *pIp){
+	this->_ipBytes = pIp;
+}
+
+
+/**
+ * @brief Método para obtener los bytes de la ip de la
+ * computadora  donde posee memoria reservada
+ *
+ * @return Ip en forma de bytes
+ */
+unsigned char *d_pointer_size_type::getIpBytes(){
+	return this->_ipBytes;
 }
 
 

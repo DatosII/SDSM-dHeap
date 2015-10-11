@@ -74,12 +74,12 @@ void* dHeap::getListaMD(){
  * @return
  */
 d_pointer_size_type* dHeap::dMalloc(unsigned int size, char type){
-        d_pointer_size_type*  pointer;
+		d_pointer_size_type*  pointer = new d_pointer_size_type();
         pointer->setType(type);
         unsigned int address = request(size,pointer);
         pointer->setPtr(address);
         pointer->setSpace(size);
-        pointer->setRef('1');
+//		pointer->setRef(1);
         dHeap *heap = dHeap::instancia();
         ((LinkedListMD*)heap->getListaMD())->insert(pointer);
         return pointer;
@@ -95,7 +95,7 @@ unsigned char* dHeap::dSet(d_pointer_size_type* pPointer, unsigned char* pBytes,
 
     unsigned char _arreglo[] = DSET;
     unsigned char* ptr = _arreglo;
-    unsigned char* _message = this->makedSet(ptr,_ip,_puerto,pBytes,pByStream);
+	unsigned char* _message = this->makedSet(ptr, pPointer->getIpBytes(),_puerto,pBytes,pByStream);
 
 	bool flag = true;
 	unsigned char *pData;
@@ -183,13 +183,16 @@ unsigned int dHeap::request(unsigned int size, d_pointer_size_type* pPointer){
     if(tmp==NULL || tmp->getActivo()==false)
         return NULL;
     else {
-        pPointer->setIp((unsigned char*)tmp->getIP());
+		pPointer->setIp((unsigned char*)tmp->getIP());
+		pPointer->setIpBytes(tmp->getBytesIp());
         pPointer->setPuerto((short)tmp->getPuerto());
         unsigned char* tmpAdd= pData+UNO;
         unsigned int address = *((unsigned int*)tmpAdd);
         return address+offset;
     }
 }
+
+
 
 /**
  * @brief dHeap::intToBytes
@@ -204,6 +207,33 @@ unsigned char* dHeap::intToBytes(unsigned int pInt){
 }
 
 
+/**
+ * @brief Método que obtiene obtiene la representacion en bytes de un dato
+ * tipo float
+ *
+ * @param pFloat Float al que se quiere obtener su representacion en bytes
+ *
+ * @return Arreglo de bytes
+ */
+unsigned char *dHeap::floatToBytes(float pFloat){
+	unsigned char *ptrTemp = (unsigned char*)&pFloat;
+	unsigned char *arr = new unsigned char[4];
+
+	for(int i = 0; i < 4; i++){
+		arr[i] = *(ptrTemp+i);
+	}
+
+	return arr;
+}
+
+
+/**
+ * @brief Método que obtiene la representacion en bytes de un short
+ *
+ * @param pShort Numero al que se quiere obtener su representacion en bytes
+ *
+ * @return Arreglo de bytes
+ */
 unsigned char* dHeap::shortToBytes(unsigned short pShort){
 	unsigned char* bytes = new unsigned char[DOS];
 
@@ -212,6 +242,28 @@ unsigned char* dHeap::shortToBytes(unsigned short pShort){
 
 	return bytes;
 }
+
+
+
+/**
+ * @brief Método para obtener la representacion en bytes de un string
+ *
+ * @param pString String al que se quiere obtener su representacion en bytes
+ *
+ * @return Arreglo de bytes
+ */
+unsigned char* dHeap::stringToBytes(string pString){
+	unsigned char *ptrTemp = (unsigned char*)pString.c_str();
+	unsigned char *arr = new unsigned char[pString.length()];
+
+	for(int i = 0; i < pString.length(); i++){
+		arr[i] = *(ptrTemp+i);
+	}
+
+	return arr;
+}
+
+
 
 /**
  * @brief dHeap::makedCalloc
@@ -223,6 +275,8 @@ unsigned char* dHeap::makedCalloc(unsigned char* pOne, unsigned char* pTwo){
     unsigned char* pData = (unsigned char*)strcat((char*)pOne, (char*)pTwo);
     return pData ;
 }
+
+
 
 /**
  * @brief dHeap::makedSet
@@ -286,6 +340,8 @@ unsigned char* dHeap::makeIp(std::string pIp){
     return ip;
 }
 
+
+
 unsigned char* dHeap::makedFree(unsigned char word[], unsigned char *ip, unsigned char *port, unsigned char *pMem, unsigned char *pBytes){
     unsigned char* pData;
     std::stringstream ss;
@@ -304,6 +360,8 @@ unsigned char* dHeap::makedFree(unsigned char word[], unsigned char *ip, unsigne
     pData=(unsigned char*)&tmp[0u];
     return pData;
 }
+
+
 
 unsigned char* dHeap::makedGet(unsigned char word[], unsigned char *ip, unsigned char *port, unsigned char *pMem, unsigned char *pBytes){
     unsigned char* pData;

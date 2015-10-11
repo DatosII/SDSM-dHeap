@@ -101,6 +101,32 @@ Node_MD *LinkedListMD::find(d_pointer_size_type pPointer){
 
 
 /**
+ * @brief Método que busca un d_pointer_size_type segun su ID
+ *
+ * @param pID ID del d_pointer_size_type
+ *
+ * @return d_pointer_size_type con el id buscado
+ */
+d_pointer_size_type *LinkedListMD::findByID(unsigned int pID){
+	pthread_mutex_lock(&hiloMutex);
+	if(_head != CERO){
+		Node_MD *temp = _head;
+		while(temp != CERO){
+			if(temp->getData()->getID() == pID){
+				return temp->getData();
+			}
+			temp = temp->getNext();
+		}
+	}
+	else{
+		std::cout << MESSAGE << JUMP;
+		return NULL;
+	}
+	pthread_mutex_unlock(&hiloMutex);
+}
+
+
+/**
 * @brief Método que imprime todos los datos almacenados dentro de la lista
 */
 void LinkedListMD::print(){

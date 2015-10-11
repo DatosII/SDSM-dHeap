@@ -9,6 +9,7 @@
 Node_LL::Node_LL(const std::string &pData1, const std::string &pData2){
 
     this->_IP = (char*)pData1.c_str();
+	this->setUpBytesIP();
     this->_PUERTO = atoi(pData2.c_str());
     this->_next = CERO;
 
@@ -270,3 +271,36 @@ char* Node_LL::getMsg(){
 pthread_mutex_t Node_LL::getMutex(){
     return mutex;
 }
+
+
+/**
+ * @brief Método que guarda en un arreglo los bytes que representan la ip
+ * del SDSMNode
+ */
+void Node_LL::setUpBytesIP(){
+	this->_ipBytes = new unsigned char[4];
+	std::stringstream ss;
+	char *pch;
+	pch = strtok(this->_IP, ".");
+	int i = 0;
+	while(pch !=NULL){
+		std::string tmp = (std::string)pch;
+		ss << std::setfill('0') << std::setw(2) <<  std::hex << std::stoi(tmp);
+		_ipBytes[i] = strtol(ss.str().c_str(), NULL, 16);
+		pch = strtok(NULL, ".");
+		i++;
+		ss.str("");
+	}
+}
+
+
+
+/**
+ * @brief Método para obtener los bytes que representan la ip de SDSMNode
+ *
+ * @return Bytes de la ip
+ */
+unsigned char *Node_LL::getBytesIp(){
+	return this->_ipBytes;
+}
+

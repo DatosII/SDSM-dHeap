@@ -38,7 +38,10 @@ public:
     d_pointer_size_type* dMalloc(unsigned int size, char type);
     unsigned char* dSet(d_pointer_size_type* pPointer, unsigned char* pBytes, unsigned char* pByStream);
     void dFree(d_pointer_size_type toFree);
-    unsigned char* makedStatus();
+	unsigned char* makedStatus();
+	unsigned char* intToBytes(unsigned int pInt);
+	unsigned char* floatToBytes(float pFloat);
+	unsigned char* stringToBytes(std::string pString);
     void* getListaDeServidores();
     void* getListaMD();
     ~dHeap();
@@ -50,7 +53,7 @@ private:
 
     /** Declaracion de los metodos privados de nuestro dHeap*/
     dHeap(void *pListServer, void *pListMetadata);
-    unsigned char* intToBytes(unsigned int pInt);
+
     unsigned char* makedCalloc(unsigned char* one, unsigned char* two);
     unsigned char* makedSet(unsigned char word[], unsigned char* ip, unsigned char* port, unsigned char* bytes, unsigned char* bystream);
     unsigned char* makedGet(unsigned char word[], unsigned char* ip, unsigned char* port, unsigned char* pMem, unsigned char* pBytes);

@@ -21,7 +21,12 @@ SOURCES += main.cpp \
     Listas/linkedlistmd.cpp \
     Nodos/node_ll.cpp \
     Nodos/node_md.cpp \
-    Pointer/d_pointer_size_type.cpp
+    Pointer/d_pointer_size_type.cpp \
+    Object/dobject.cpp \
+    Object/dint.cpp \
+    Object/dchar.cpp \
+    Object/dfloat.cpp \
+    Object/dstring.cpp
 
 LIBS += -pthread
 
@@ -33,6 +38,11 @@ HEADERS += \
     Listas/linkedlistmd.h \
     Nodos/node_ll.h \
     Nodos/node_md.h \
-    Pointer/d_pointer_size_type.h
+    Pointer/d_pointer_size_type.h \
+    Object/dobject.h \
+    Object/dint.h \
+    Object/dchar.h \
+    Object/dfloat.h \
+    Object/dstring.h
 
 DISTFILES +=
