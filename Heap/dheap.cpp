@@ -101,8 +101,7 @@ d_pointer_size_type* dHeap::dMalloc(unsigned int size, char type){
         pointer->setType(type);
         unsigned int address = request(size,pointer);
         if(address != -1){
-			pointer->setPtr(address);
-            //std::cout << "ADDRESS: " << address << "\n";
+            pointer->setPtr(address);
 			pointer->setSpace(size);
             pointer->setRef(1);
 			dHeap *heap = dHeap::instancia();
@@ -127,8 +126,6 @@ d_pointer_size_type* dHeap::dMalloc(unsigned int size, char type){
  * @return
  */
 unsigned char* dHeap::dSet(d_pointer_size_type* pPointer, unsigned char* pBytes, unsigned char* pByStream){
-
-    std::cout<<"Estoy al comienzo del dSet()"<<std::endl;
 
     unsigned char* _ip = pPointer->getIp();
     unsigned char* _puerto = this->shortToBytes((unsigned short)pPointer->getPuerto());
@@ -159,7 +156,6 @@ unsigned char* dHeap::dSet(d_pointer_size_type* pPointer, unsigned char* pBytes,
     nodoDeEnvio->setFlag(CERO);
 
     pthread_mutex_unlock(&mutexTemporal);
-    std::cout << "RETURN SET: "; std::printf("%x\n", pData[0]);
 	if(pData[0] == CERO){
         return _ip;
     }
@@ -171,7 +167,6 @@ unsigned char* dHeap::dSet(d_pointer_size_type* pPointer, unsigned char* pBytes,
 
 
 unsigned char *dHeap::dGet(d_pointer_size_type *pPointer, unsigned char *pBytes, unsigned char *pBytesAddress){
-    std::cout<<"Estoy al comienzo del dGet()"<<std::endl;
 
     unsigned char* _ip = pPointer->getIp();
     unsigned char* _puerto = this->shortToBytes((unsigned short)pPointer->getPuerto());
@@ -201,7 +196,6 @@ unsigned char *dHeap::dGet(d_pointer_size_type *pPointer, unsigned char *pBytes,
     pData= (unsigned char*)nodoDeEnvio->getMsg();
     nodoDeEnvio->setFlag(CERO);
     pthread_mutex_unlock(&mutexTemporal);
-    std::cout << "RETURN GET: "; std::printf("%x\n", pData[0]);
     if(pData[0] == CERO){
         return pData+1;
     }
@@ -217,7 +211,6 @@ unsigned char *dHeap::dGet(d_pointer_size_type *pPointer, unsigned char *pBytes,
  * @param toFree
  */
 void dHeap::dFree(d_pointer_size_type* toFree){
-    std::cout<<"Estoy al comienzo del dFree()"<<std::endl;
 
     unsigned char* _ip = toFree->getIp();
     unsigned char* _puerto = this->shortToBytes((unsigned short)toFree->getPuerto());
@@ -256,7 +249,6 @@ void dHeap::dFree(d_pointer_size_type* toFree){
     nodoDeEnvio->setFlag(CERO);
 
     pthread_mutex_unlock(&mutexTemporal);
-    std::cout << "RETURN FREE: "; std::printf("%x\n", pData[0]);
     if(pData == CERO){
         toFree->setRef(-1);
     }
@@ -323,9 +315,7 @@ unsigned int dHeap::request(unsigned int size, d_pointer_size_type* pPointer){
     if(tmp==NULL || tmp->getActivo()==false)
         return -1;
     else {
-		std::cout << "VALOR RETORNADO" << "\n";				/////////////////////////////////////////////////
-		for(int i=0; i<11; i++) std::printf("%x\n", Returned[i]);
-		pPointer->setIp((unsigned char*)tmp->getIP());
+        pPointer->setIp((unsigned char*)tmp->getIP());
 		pPointer->setIpBytes(tmp->getBytesIp());
         pPointer->setPuerto((short)tmp->getPuerto());
 		unsigned char* tmpAdd= Returned+7;
@@ -425,9 +415,8 @@ unsigned char* dHeap::makedCalloc(unsigned char* pWord, unsigned char* pSize){
 	std::stringstream ss;
 	ss << pWord;
 	for(int i = 0; i < 4; i++)
-		ss << std::setfill('0') << std::setw(2) << std::hex << static_cast<unsigned int>(pSize[i]);
-	std::string temp = ss.str();
-    std::cout << "MENSAJE DCALLOC: " << temp << std::endl;
+        ss << std::setfill(FILL_CERO) << std::setw(2) << std::hex << static_cast<unsigned int>(pSize[i]);
+    std::string temp = ss.str();
 	pData = (unsigned char*)ss.str().c_str();
 
 	return pData;
@@ -453,18 +442,17 @@ unsigned char* dHeap::makedSet(unsigned char *word, unsigned char* ip,
     std::stringstream ss;
 		ss << word;
     for(int i=CERO; i<CUATRO;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(ip[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(ip[i]);
     for(int i=CERO; i<DOS;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(port[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(port[i]);
 	for(int i=CERO; i<CUATRO;i++)
-		ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(address[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(address[i]);
     for(int i=CERO; i<CUATRO;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(bytes[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(bytes[i]);
     unsigned int* numBytes = (unsigned int*)bytes;
     for(int i=CERO; i<*numBytes;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(bystream[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(bystream[i]);
     std::string tmp=ss.str();
-	cout<< "MENSAJE DSET: " <<tmp<<endl;
     pData=(unsigned char*)&tmp[0u];
     return pData;
 }
@@ -472,12 +460,10 @@ unsigned char* dHeap::makedSet(unsigned char *word, unsigned char* ip,
 
 
 unsigned char *dHeap::makedStatus(){
-    unsigned char word[] = "d_status:";
-    unsigned char *data;
+    unsigned char word[] = DSTATUS;
+    unsigned char *data=word;
     std::stringstream ss;
-    for(int i = CERO; i < sizeof(word)-DOS; i++){
-         ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(word[i]);
-    }
+    ss << word;
     std::string temp = ss.str();
     data = (unsigned char*)&temp[0u];
     return data;
@@ -508,13 +494,13 @@ unsigned char* dHeap::makedFree(unsigned char *word, unsigned char *ip, unsigned
     std::stringstream ss;
         ss << word;
     for(int i=CERO; i<CUATRO;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(ip[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(ip[i]);
     for(int i=CERO; i<DOS;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(port[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(port[i]);
     for(int i=CERO; i<CUATRO;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(pMem[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(pMem[i]);
     for(int i=CERO; i<CUATRO;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(pBytes[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(pBytes[i]);
     std::string tmp=ss.str();
     cout<<tmp<<endl;
     pData=(unsigned char*)&tmp[0u];
@@ -528,13 +514,13 @@ unsigned char* dHeap::makedGet(unsigned char *word, unsigned char *ip, unsigned 
     std::stringstream ss;
         ss << word;
     for(int i=CERO; i<CUATRO;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(ip[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(ip[i]);
     for(int i=CERO; i<DOS;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(port[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(port[i]);
     for(int i=CERO; i<CUATRO;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(pMem[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(pMem[i]);
     for(int i=CERO; i<CUATRO;i++)
-        ss<<std::setfill('0')<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(pBytes[i]);
+        ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(pBytes[i]);
     std::string tmp=ss.str();
     cout<< "MENSAJE DGET: " <<tmp<<endl;
     pData=(unsigned char*)&tmp[0u];
@@ -545,7 +531,6 @@ unsigned char* dHeap::makedGet(unsigned char *word, unsigned char *ip, unsigned 
 
 unsigned int dHeap::addressInSDS(unsigned int pAddressHeap){
     Node_LL *tmp=((LinkedList*)listaDeServidores)->getHead();
-    //pthread_mutex_t mutexTemporal = tmp->getMutex();
     unsigned int _inicial = tmp->getInicio();
     unsigned int _final = tmp->getFinal();
     unsigned int _result = 0;
@@ -556,7 +541,6 @@ unsigned int dHeap::addressInSDS(unsigned int pAddressHeap){
             break;
         }
         tmp = tmp->getNext();
-        //pthread_mutex_lock(&mutexTemporal);
     }
 }
 

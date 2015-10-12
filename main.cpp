@@ -4,8 +4,11 @@
 #include "Heap/dheap.h"
 #include "Listas/linkedlist.h"
 #include "Listas/linkedlistmd.h"
-#include "/home/jairodaniel_23/SDSM-dHeap/pugixml-1.6/src/pugixml.cpp"
+#include "/home/jairodaniel_23/QT Projects/SDSM-dHeap/pugixml-1.6/src/pugixml.cpp"
 #include "Object/dint.h"
+#include "Object/dchar.h"
+#include "Object/dfloat.h"
+#include "Object/dstring.h"
 
 #define SDSCONFIG "SDSConfiguration"
 #define SDS "SDS"
@@ -15,7 +18,7 @@
 #define EMPTY ""
 #define GC "GC"
 #define FRECUENCY "gc-Frecuency"
-#define PATH "/home/jairodaniel_23/SDSM-dHeap/configuracion.xml"
+#define PATH "/home/jairodaniel_23/QT Projects/SDSM-dHeap/configuracion.xml"
 
 /**
  * @brief getNodes funcion que extrae los nodos que se conectaran al SDSMM. Se insertan en una lista simple.
@@ -64,15 +67,18 @@ int main(){
 
     dInt *j = new dInt();
     *j = 345;
-	dInt *f = new dInt();
-    *f=25;
-    dInt *h = new dInt();
-    *h=5689;
+//	dInt *f = new dInt();
+//    *f=25;
+//    dInt *h = new dInt();
+//    *h=5689;
 
-    h->deleteData();
+//    h->deleteData();
 
-    dInt *m = new dInt();
-    *m=567;
+//    dInt *m = new dInt();
+//    *m=567;
+    dString *m = new dString();
+    *m="Puta Vida";
+    std::cout << **m << std::endl;
 
 //
 

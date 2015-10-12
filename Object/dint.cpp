@@ -39,7 +39,6 @@ void dInt::operator =(const unsigned int pInt){
 	delete numBytes, byteStream;
 }
 
-
 unsigned int dInt::operator *(){
 	dHeap *heap = dHeap::instancia();
 	d_pointer_size_type *myPointer = ((LinkedListMD*)heap->getListaMD())->findByID(_id);
@@ -53,7 +52,4 @@ unsigned int dInt::operator *(){
         return 0;
     }
     else  return *(unsigned int*)status;
-
-
-
 }

@@ -18,7 +18,7 @@
 #define TRES 3
 #define CUATRO 4
 #define OCHO 8
-
+#define FILL_CERO '0'
 #define DSET "d_set:"
 #define DCALLOC "645f63616c6c6f633a"
 #define DSET "645f7365743a"

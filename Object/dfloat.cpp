@@ -35,13 +35,23 @@ void dFloat::operator =(float pFloat){
 	unsigned char *byteStream = heap->floatToBytes(pFloat);
 	d_pointer_size_type *myPointer = ((LinkedListMD*)heap->getListaMD())->findByID(_id);
 	unsigned char* status = heap->dSet(myPointer, numBytes, byteStream);
-	delete numBytes, byteStream;
+    if(*status == 1) std::cout << "NO SE REALIZO EL SET" << "\n";
+    delete numBytes, byteStream;
 }
 
 
 
-unsigned int dFloat::operator *(){
+float dFloat::operator *(){
 	dHeap *heap = dHeap::instancia();
 	d_pointer_size_type *myPointer = ((LinkedListMD*)heap->getListaMD())->findByID(_id);
-
+    unsigned char *numBytes = heap->intToBytes(INT_SIZE);
+    unsigned int _realAddress = heap->addressInSDS(myPointer->getPtr());
+    unsigned char *bytesAddress = heap->intToBytes(_realAddress);
+    unsigned char *status = heap->dGet(myPointer, numBytes, bytesAddress);
+    delete numBytes, bytesAddress;
+    if(status == NULL){
+        std::cout << "NO SE PUDO OBTENER EL DATO" << std::endl;
+        return 0;
+    }
+    else  return *(float*)status;
 }

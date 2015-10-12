@@ -27,6 +27,7 @@ void dString::operator =(std::string pString){
 	unsigned char *numBytes = heap->intToBytes(pString.length());
 	unsigned char *byteStream = heap->stringToBytes(pString);
 	unsigned char* status = heap->dSet(myPointer, numBytes, byteStream);
+    if(*status == 1) std::cout << "NO SE REALIZO EL SET" << "\n";
 	delete numBytes, byteStream;
 }
 
@@ -35,5 +36,14 @@ void dString::operator =(std::string pString){
 std::string dString::operator *(){
 	dHeap *heap = dHeap::instancia();
 	d_pointer_size_type *myPointer = ((LinkedListMD*)heap->getListaMD())->findByID(_id);
-
+    unsigned char *numBytes = heap->intToBytes(myPointer->getSpace());
+    unsigned int _realAddress = heap->addressInSDS(myPointer->getPtr());
+    unsigned char *bytesAddress = heap->intToBytes(_realAddress);
+    unsigned char *status = heap->dGet(myPointer, numBytes, bytesAddress);
+    delete numBytes, bytesAddress;
+    if(status == NULL){
+        std::cout << "NO SE PUDO OBTENER EL DATO" << std::endl;
+        return 0;
+    }
+    else  return std::string(reinterpret_cast<char*>(status));//*(std::string*)status;
 }

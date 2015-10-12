@@ -16,7 +16,7 @@ public:
 	~dFloat(); //Destructor
 
 	void operator=(float pFloat); //Sobrecargar operador =
-	unsigned int operator*(); //Sobrecarga operador *
+    float operator *(); //Sobrecarga operador *
 	};
 
 #endif // DFLOAT
