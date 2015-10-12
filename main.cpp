@@ -4,7 +4,8 @@
 #include "Heap/dheap.h"
 #include "Listas/linkedlist.h"
 #include "Listas/linkedlistmd.h"
-#include "/home/pablo/QTProjects/SDSM-dHeap/pugixml-1.6/src/pugixml.cpp"
+#include "/home/jairodaniel_23/SDSM-dHeap/pugixml-1.6/src/pugixml.cpp"
+#include "Object/dint.h"
 
 #define SDSCONFIG "SDSConfiguration"
 #define SDS "SDS"
@@ -14,7 +15,7 @@
 #define EMPTY ""
 #define GC "GC"
 #define FRECUENCY "gc-Frecuency"
-#define PATH "/home/pablo/QTProjects/SDSM-dHeap/configuracion.xml"
+#define PATH "/home/jairodaniel_23/SDSM-dHeap/configuracion.xml"
 
 /**
  * @brief getNodes funcion que extrae los nodos que se conectaran al SDSMM. Se insertan en una lista simple.
@@ -54,15 +55,36 @@ void getFrecuency(char* pPath, LinkedListMD* pListaMetadatos){
 	pListaMetadatos->iniciarGarbaje((std::string)_nodo.child_value(FRECUENCY));
 }
 
-int main()
-{
+int main(){
 	LinkedList* listaCliente = new LinkedList();
 	LinkedListMD* listaMetadatos = new LinkedListMD();
 	getNodes(PATH,listaCliente);
 	getFrecuency(PATH,listaMetadatos);
+	dHeap *heap = dHeap::instancia(listaCliente, listaMetadatos);
+
+    dInt *j = new dInt();
+    *j = 345;
+	dInt *f = new dInt();
+    *f=25;
+    dInt *h = new dInt();
+    *h=5689;
+
+    h->deleteData();
+
+    dInt *m = new dInt();
+    *m=567;
+
+//
+
+//
+
+//
+
+
+
+
 	while(true){
 
 	}
-
 	return 0;
 }

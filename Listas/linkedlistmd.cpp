@@ -5,7 +5,7 @@
  * que juzgara las acciones dentro de la lista. Esta ademas controla
  * las entradas del Garbaje Collector a la misma.
  */
-LinkedListMD::LinkedListMD(): _head(CERO), _tail(CERO)
+LinkedListMD::LinkedListMD(): _head(CERO), _tail(CERO), _totalNodes(CERO)
 {
     hiloMutex = PTHREAD_MUTEX_INITIALIZER;
 }
@@ -24,6 +24,7 @@ void LinkedListMD::insert(d_pointer_size_type *pPointer) {
 
     if (_head == CERO){
         _head = _tail = newNode;
+		_totalNodes++;
     }
     else{
         Node_MD *tmp = _head;
@@ -32,6 +33,7 @@ void LinkedListMD::insert(d_pointer_size_type *pPointer) {
         }
         tmp->setNext(newNode);
         _tail = tmp;
+		_totalNodes++;
     }
     pthread_mutex_unlock(&hiloMutex);
 }
@@ -51,6 +53,7 @@ void LinkedListMD::remove(d_pointer_size_type pPointer){
     else if(*(_head->getData()) == pPointer){ //Dato se encuentra en el head
         Node_MD *temp = _head;
         _head = _head->getNext();
+		_totalNodes--;
         delete temp;
     }
     else{ //Dato no esta en el head, se debe buscar
@@ -62,6 +65,7 @@ void LinkedListMD::remove(d_pointer_size_type pPointer){
                 if(next == _tail){
                     _tail = prev;
                 }
+				_totalNodes--;
                 delete next;
                 break;
             }
@@ -87,6 +91,7 @@ Node_MD *LinkedListMD::find(d_pointer_size_type pPointer){
         Node_MD *temp = _head;
         while(temp != CERO){
             if(*(temp->getData()) == pPointer){
+                  pthread_mutex_unlock(&hiloMutex);
                 return temp;
             }
             temp = temp->getNext();
@@ -94,9 +99,10 @@ Node_MD *LinkedListMD::find(d_pointer_size_type pPointer){
     }
     else{
         std::cout << MESSAGE << JUMP;
+          pthread_mutex_unlock(&hiloMutex);
         return NULL;
     }
-    pthread_mutex_unlock(&hiloMutex);
+
 }
 
 
@@ -111,18 +117,20 @@ d_pointer_size_type *LinkedListMD::findByID(unsigned int pID){
 	pthread_mutex_lock(&hiloMutex);
 	if(_head != CERO){
 		Node_MD *temp = _head;
-		while(temp != CERO){
-			if(temp->getData()->getID() == pID){
-				return temp->getData();
+        while(temp != CERO){
+            if(temp->getData()->getID() == pID){
+                pthread_mutex_unlock(&hiloMutex);
+                return temp->getData();
 			}
 			temp = temp->getNext();
-		}
+        }
 	}
 	else{
 		std::cout << MESSAGE << JUMP;
+        pthread_mutex_unlock(&hiloMutex);
 		return NULL;
 	}
-	pthread_mutex_unlock(&hiloMutex);
+
 }
 
 
@@ -147,6 +155,15 @@ void LinkedListMD::print(){
 */
 Node_MD *LinkedListMD::getHead() {
     return this->_head;
+}
+
+
+/**
+ * @brief Método que permite obtiener la cantida de nodos dentro de la lista
+ * @return Cantidad de nodos
+ */
+unsigned int LinkedListMD::getTotalNodes(){
+	return _totalNodes;
 }
 
 
@@ -200,11 +217,11 @@ void* LinkedListMD::garbajeCollector(void *pParametros){
     while(true){
         while(_final-_inicio < ((parametrosGarbaje*)pParametros)->frecuencia)
             _final = time(NULL);
-        std::cout<<"Estoy dentro del ciclo de frecuencia del garbaje collector"<<std::endl;
+        //std::cout<<"Estoy dentro del ciclo de frecuencia del garbaje collector"<<std::endl;
          Node_MD* _temp= ((LinkedListMD*)((parametrosGarbaje*)pParametros)->listaMetadatos)->getHead();
 
-        while(_temp != NULL){
-            pthread_mutex_lock(&(((parametrosGarbaje*)pParametros)->mutexStruct));
+		while(_temp != NULL){
+			pthread_mutex_lock(&(((parametrosGarbaje*)pParametros)->mutexStruct));
 
             if (_temp->CantidadReferencias() == 0){
                 Node_MD* _temp2 = _temp->getNext();
@@ -215,7 +232,7 @@ void* LinkedListMD::garbajeCollector(void *pParametros){
             else
                 _temp = _temp->getNext();
 
-            pthread_mutex_unlock(&(((parametrosGarbaje*)pParametros)->mutexStruct));
+			pthread_mutex_unlock(&(((parametrosGarbaje*)pParametros)->mutexStruct));
 
             _inicio = _final = time(NULL);
         }

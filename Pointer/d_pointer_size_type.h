@@ -27,7 +27,7 @@ public:
 
     d_pointer_size_type();
 	unsigned int getID()const;
-    int getPtr()const;
+	unsigned int getPtr()const;
     int getSpace();
     char getType();
 	int getRef();

@@ -48,9 +48,11 @@ public:
     void remove(d_pointer_size_type pPointer);
     Node_MD* find(d_pointer_size_type pPointer);
 	d_pointer_size_type* findByID(unsigned int pID); //Método que busca un d_pointer por su id
+	unsigned int getTotalNodes(); //Método que retorna la cantida de nodo dentro de la lista
     void print();
 
 private:
+	unsigned int _totalNodes;
     Node_MD *_head;
     Node_MD *_tail;
     parametrosGarbaje* parametros;

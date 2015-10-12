@@ -28,17 +28,6 @@ void dObject::setDObjectType(char pType){
 }
 
 
-void *dObject::getDObjectPuntData(){
-	return this->dObjectPuntData;
-}
-
-
-
-void dObject::setDObjectPuntData(void *pPuntData){
-	this->dObjectPuntData = pPuntData;
-}
-
-
 /**
  * @brief Método para asignar e id del d_pointer
  *
@@ -46,6 +35,21 @@ void dObject::setDObjectPuntData(void *pPuntData){
  */
 void dObject::setID(unsigned int pId){
 	this->_id = pId;
+}
+
+
+
+d_pointer_size_type *dObject::getdPointer(){
+    dHeap *heap = dHeap::instancia();
+    d_pointer_size_type *myPointer = ((LinkedListMD*)heap->getListaMD())->findByID(_id);
+    return myPointer;
+}
+
+
+void dObject::deleteData(){
+    dHeap *heap = dHeap::instancia();
+    heap->dFree(this->getdPointer());
+
 }
 
 

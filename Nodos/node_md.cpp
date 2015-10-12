@@ -9,6 +9,7 @@
 Node_MD::Node_MD(d_pointer_size_type *pPointer){
     dPointer = pPointer;
     referencia = 1;
+	_next = 0;
 }
 
 

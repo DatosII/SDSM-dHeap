@@ -19,7 +19,7 @@ unsigned int d_pointer_size_type::getID()const{
 }
 
 
-int d_pointer_size_type::getPtr()const{
+unsigned int d_pointer_size_type::getPtr()const{
     return _ptr;
 }
 

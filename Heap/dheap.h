@@ -5,7 +5,6 @@
 #include <string.h>
 #include "Pointer/d_pointer_size_type.h"
 
-
 #include <iostream>
 #include <cstdlib>
 #include <stdio.h>
@@ -21,7 +20,11 @@
 #define OCHO 8
 
 #define DSET "d_set:"
-#define DCALLOC "d_calloc:"
+#define DCALLOC "645f63616c6c6f633a"
+#define DSET "645f7365743a"
+#define DGET "645f6765743a"
+#define DFREE "645f667265653a"
+#define DSTATUS "645f7374617475733a"
 
 using namespace std;
 
@@ -37,11 +40,13 @@ public:
     static dHeap* instancia();
     d_pointer_size_type* dMalloc(unsigned int size, char type);
     unsigned char* dSet(d_pointer_size_type* pPointer, unsigned char* pBytes, unsigned char* pByStream);
-    void dFree(d_pointer_size_type toFree);
+    unsigned char *dGet(d_pointer_size_type* pPointer, unsigned char* pBytes, unsigned char *pBytesAddress);
+    void dFree(d_pointer_size_type *toFree);
 	unsigned char* makedStatus();
 	unsigned char* intToBytes(unsigned int pInt);
 	unsigned char* floatToBytes(float pFloat);
 	unsigned char* stringToBytes(std::string pString);
+    unsigned int addressInSDS(unsigned int pAddressHeap);
     void* getListaDeServidores();
     void* getListaMD();
     ~dHeap();
@@ -54,9 +59,9 @@ private:
     /** Declaracion de los metodos privados de nuestro dHeap*/
     dHeap(void *pListServer, void *pListMetadata);
 
-    unsigned char* makedCalloc(unsigned char* one, unsigned char* two);
-    unsigned char* makedSet(unsigned char word[], unsigned char* ip, unsigned char* port, unsigned char* bytes, unsigned char* bystream);
-    unsigned char* makedGet(unsigned char word[], unsigned char* ip, unsigned char* port, unsigned char* pMem, unsigned char* pBytes);
+	unsigned char* makedCalloc(unsigned char* pWord, unsigned char* pSize);
+	unsigned char* makedSet(unsigned char *word, unsigned char* ip, unsigned char* port, unsigned char *address, unsigned char* bytes, unsigned char* bystream);
+    unsigned char* makedGet(unsigned char *word, unsigned char* ip, unsigned char* port, unsigned char* pMem, unsigned char* pBytes);
     unsigned char* makedFree(unsigned char word[], unsigned char* ip, unsigned char* port, unsigned char* pMem, unsigned char* pBytes);
     unsigned int request(unsigned int pSize, d_pointer_size_type *pPointer);
     unsigned char* makeIp(std::string pIp);

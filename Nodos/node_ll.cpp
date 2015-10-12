@@ -138,14 +138,16 @@ int Node_LL::getPuerto(){
 void Node_LL::setDimension(char* pBuffer){
     if(this->_previous == NULL){
         this->_inicio = 0;
-        this->_final = this->_total = *(unsigned int*)pBuffer;
+        this->_final = (*(unsigned int*)pBuffer)-1;
+        this->_total = (*(unsigned int*)pBuffer);
     }
     else{
-        this->_total = this->_total = *(unsigned int*)pBuffer;
-        this->_inicio = this->getPrevious()->getFinal();
-        this->_final = this->_inicio + this->_total;
+        this->_total = *(unsigned int*)pBuffer;
+        this->_inicio = this->getPrevious()->getFinal()+1;
+        this->_final = this->_inicio + this->_total-1;
     }
 }
+
 
 
 /**
@@ -163,7 +165,12 @@ void* Node_LL::conectarClientes(void* pParametros){
     int cliente;
     int puerto=((parametrosInicioCliente*)pParametros)->PUERTO;
     char* buffer=new char[BUFFSIZE];
-    const char* ip = ((parametrosInicioCliente*)pParametros)->IP.c_str();
+	std::string ip = ((parametrosInicioCliente*)pParametros)->IP;
+	char* ipTemp = (char*)ip.c_str();
+
+	for(int i=0; i<ip.length();i++){
+		if(ipTemp[i] == 0) ipTemp[i] = 0x2e;
+	}
 
     struct sockaddr_in direc;
     if ((cliente=socket(AF_INET,SOCK_STREAM,0))<0){
@@ -172,9 +179,8 @@ void* Node_LL::conectarClientes(void* pParametros){
     }
 
     direc.sin_family=AF_INET;
-    direc.sin_port=htons(puerto);
-    inet_pton(AF_INET,ip,&direc.sin_addr);
-
+	direc.sin_port=htons(puerto);
+	inet_pton(AF_INET,ipTemp,&direc.sin_addr);
 
     if (connect(cliente,(struct sockaddr *)&direc,sizeof(direc))==CERO){
         //En caso de conectarse se establece el protocolo preestablecido
@@ -185,7 +191,7 @@ void* Node_LL::conectarClientes(void* pParametros){
 
         while(true){
             //Por medio de la bandera evalua el buffer hasta encontrar el siguiente recv()
-            recv(cliente,buffer,BUFFSIZE,MSG_PEEK);
+			//recv(cliente,buffer,BUFFSIZE,MSG_PEEK);
 
             //Accesamos a la memoria compartida por el dHeap y el Nodo_LL
             pthread_mutex_lock(&mutexTemporal);
@@ -193,24 +199,26 @@ void* Node_LL::conectarClientes(void* pParametros){
             if(((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->getFlag()==UNO){
 
                 ((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->setFlag(DOS);
+
                 send(cliente,((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->getMsg()
                      ,BUFFSIZE,CERO);
                 recv(cliente,buffer,BUFFSIZE,CERO);
-                if(strcmp(buffer, CONECTADO) == CERO ){
+//                if(strcmp(buffer, CONECTADO) == CERO ){
 
-                    send(cliente,SI,BUFFSIZE,CERO);
-                    send(cliente,((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->getMsg()
-                         ,BUFFSIZE,CERO);
-                    recv(cliente,buffer,BUFFSIZE,CERO);
+//                    send(cliente,SI,BUFFSIZE,CERO);
+//                    send(cliente,((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->getMsg()
+//                         ,BUFFSIZE,CERO);
+//                    recv(cliente,buffer,BUFFSIZE,CERO);
+//                    ((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->setMsg(buffer);
+//                    ((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->setFlag(TRES);
+
+//                }
+
+//                else{
+
                     ((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->setMsg(buffer);
                     ((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->setFlag(TRES);
-                }
-
-                else{
-
-                    ((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->setMsg(buffer);
-                    ((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->setFlag(TRES);
-                }
+//                }
             }
 
             pthread_mutex_unlock(&mutexTemporal);

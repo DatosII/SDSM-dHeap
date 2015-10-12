@@ -83,7 +83,7 @@ struct parametrosInicioCliente{
         unsigned int _final;  //Variable de final de memoria local
         unsigned int _total;
         unsigned int _PUERTO;//Numero de puerto por el que conversan
-        bool _activo;
+		bool _activo = true;
         char* _IP;  // Ip de la maquina a la que se conectara
 		unsigned char *_ipBytes;
         int flag;
