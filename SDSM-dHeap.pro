@@ -26,7 +26,10 @@ SOURCES += main.cpp \
     Object/dint.cpp \
     Object/dchar.cpp \
     Object/dfloat.cpp \
-    Object/dstring.cpp
+    Object/dstring.cpp \
+    App/App.cpp \
+    App/listaapp.cpp \
+    App/nodoapp.cpp
 
 LIBS += -pthread
 
@@ -43,6 +46,9 @@ HEADERS += \
     Object/dint.h \
     Object/dchar.h \
     Object/dfloat.h \
-    Object/dstring.h
+    Object/dstring.h \
+    App/App.h \
+    App/listaapp.h \
+    App/nodoapp.h
 
 DISTFILES +=

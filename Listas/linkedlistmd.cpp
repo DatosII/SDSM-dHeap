@@ -198,7 +198,6 @@ void LinkedListMD::iniciarGarbaje(string pFrecuency){
     parametros->listaMetadatos = this;
     parametros->mutexStruct = hiloMutex;
 
-    std::cout<<"Me encuentro en iniciar Garbaje"<<std::endl;
     pthread_create(&hiloGarbaje,NULL,garbajeCollector,parametros);
 }
 
@@ -210,14 +209,12 @@ void LinkedListMD::iniciarGarbaje(string pFrecuency){
  * @param pParametros struct con el mutex y la frecuencia necesarios para el garbaje.
  */
 void* LinkedListMD::garbajeCollector(void *pParametros){
-    std::cout<<"Me encuentro en el Garbaje Collector"<<std::endl;
     int _inicio = CERO;
     int _final = CERO;
     _inicio = _final = time(NULL);
     while(true){
         while(_final-_inicio < ((parametrosGarbaje*)pParametros)->frecuencia)
             _final = time(NULL);
-        //std::cout<<"Estoy dentro del ciclo de frecuencia del garbaje collector"<<std::endl;
          Node_MD* _temp= ((LinkedListMD*)((parametrosGarbaje*)pParametros)->listaMetadatos)->getHead();
 
 		while(_temp != NULL){

@@ -9,6 +9,7 @@
 #include "Object/dchar.h"
 #include "Object/dfloat.h"
 #include "Object/dstring.h"
+#include "App/App.h"
 
 #define SDSCONFIG "SDSConfiguration"
 #define SDS "SDS"
@@ -65,32 +66,9 @@ int main(){
 	getFrecuency(PATH,listaMetadatos);
 	dHeap *heap = dHeap::instancia(listaCliente, listaMetadatos);
 
-    dInt *j = new dInt();
-    *j = 345;
-//	dInt *f = new dInt();
-//    *f=25;
-//    dInt *h = new dInt();
-//    *h=5689;
-
-//    h->deleteData();
-
-//    dInt *m = new dInt();
-//    *m=567;
-    dString *m = new dString();
-    *m="Puta Vida";
-    std::cout << **m << std::endl;
-
-//
-
-//
-
-//
+    App *myApp = new App();
+    myApp->solicitud();
 
 
-
-
-	while(true){
-
-	}
 	return 0;
 }
