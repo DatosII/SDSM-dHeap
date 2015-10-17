@@ -5,6 +5,10 @@
 			<IP>172.26.99.179</IP>
 			<Puerto>6000</Puerto>
 		</Node>
+		<Node>
+			<IP>172.26.97.228</IP>
+			<Puerto>6000</Puerto>
+		</Node>
 		
 
 	</SDS>

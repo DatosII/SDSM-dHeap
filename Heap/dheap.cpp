@@ -492,7 +492,6 @@ unsigned char* dHeap::makedFree(unsigned char *word, unsigned char *ip, unsigned
     for(int i=CERO; i<CUATRO;i++)
         ss<<std::setfill(FILL_CERO)<<std::setw(DOS)<<std::hex<<static_cast<unsigned int>(pBytes[i]);
     std::string tmp=ss.str();
-    cout<<tmp<<endl;
     pData=(unsigned char*)&tmp[0u];
     return pData;
 }
