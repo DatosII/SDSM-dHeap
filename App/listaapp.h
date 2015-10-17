@@ -1,5 +1,7 @@
 #ifndef LISTAAPP_H
 #define LISTAAPP_H
+
+
 #include "App/nodoapp.h"
 
 class ListaApp
@@ -9,8 +11,11 @@ private:
     NodoApp* _tail;
 public:
     ListaApp();
+    ~ListaApp();
     void insertData(NodoApp *pNodo);
-    bool deleteData();
+    void remove(unsigned int pID);
+    void format();
+    NodoApp* find(unsigned int pData);
 };
 
 #endif // LISTAAPP_H

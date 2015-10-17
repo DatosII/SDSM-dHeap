@@ -24,7 +24,7 @@ char dObject::getDObjectType(){
  * @param pType Tipo de dato
  */
 void dObject::setDObjectType(char pType){
-	this->dObjectType = pType;
+    this->dObjectType = pType;
 }
 
 

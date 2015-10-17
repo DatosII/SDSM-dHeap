@@ -18,3 +18,7 @@ unsigned int NodoApp::getId(){
     return _id;
 }
 
+dObject *NodoApp::getData(){
+    return _data;
+}
+

@@ -217,7 +217,6 @@ void dHeap::dFree(d_pointer_size_type* toFree){
 
     unsigned char _arreglo[] = DFREE;
     unsigned char* ptr = _arreglo;
-
     unsigned int _realAddress = addressInSDS(toFree->getPtr());
     unsigned char *bytesAddress = intToBytes(_realAddress);
     unsigned char *bytesToFree = intToBytes(toFree->getSpace());
@@ -244,6 +243,7 @@ void dHeap::dFree(d_pointer_size_type* toFree){
 
         pthread_mutex_unlock(&mutexTemporal);
     }
+
     pthread_mutex_lock(&mutexTemporal);
     pData= (unsigned char*)nodoDeEnvio->getMsg();
     nodoDeEnvio->setFlag(CERO);
@@ -252,7 +252,6 @@ void dHeap::dFree(d_pointer_size_type* toFree){
     if(pData == CERO){
         toFree->setRef(-1);
     }
-
 }
 
 
@@ -541,6 +540,7 @@ unsigned int dHeap::addressInSDS(unsigned int pAddressHeap){
         }
         tmp = tmp->getNext();
     }
+    return _result;
 }
 
 

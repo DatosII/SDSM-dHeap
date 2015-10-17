@@ -5,6 +5,7 @@
  *
  */
 dString::dString(){
+    dObjectType='S';
 	this->_id = 0;
 }
 
@@ -45,5 +46,5 @@ std::string dString::operator *(){
         std::cout << "NO SE PUDO OBTENER EL DATO" << std::endl;
         return 0;
     }
-    else  return std::string(reinterpret_cast<char*>(status));//*(std::string*)status;
+    else  return std::string((char*)status);//std::string(reinterpret_cast<char*>(status));
 }

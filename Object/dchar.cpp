@@ -11,6 +11,7 @@
  * metadatos
  */
 dChar::dChar(){
+    dObjectType='C';
 	this->_id = 0;
 	dHeap *heap = dHeap::instancia();
 	d_pointer_size_type *myPointer = heap->dMalloc(CHAR_SIZE,'C');

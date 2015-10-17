@@ -15,6 +15,8 @@ public:
     void setNext(NodoApp *pNext);
     NodoApp *getNext();
     unsigned int getId();
+    dObject* getData();
+
 
 
 

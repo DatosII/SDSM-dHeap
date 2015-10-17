@@ -66,6 +66,22 @@ int main(){
     getFrecuency(PATH,listaMetadatos);
     dHeap *heap = dHeap::instancia(listaCliente, listaMetadatos);
 
+    /*
+    dChar *x = new dChar;
+    dChar *y = new dChar;
+    *x='w';
+    *y='r';
+
+    x->deleteData();
+    dChar *z = new dChar;
+    *z='r';
+    y->deleteData();
+    z->deleteData();
+
+    while(true){
+
+    }*/
+
     App *myApp = new App();
     myApp->solicitud();
 

@@ -12,20 +12,16 @@
 class dObject{
 protected:
     unsigned int _id;
+    char dObjectType;
 private:
     d_pointer_size_type *getdPointer();
-	char dObjectType;
     void* dObjectPuntData;
 
 public:
 	dObject();
-
 	char getDObjectType();
-	void setDObjectType(char pType);
-
-
+    void setDObjectType(char pType);
     void deleteData();
-
 	void setID(unsigned int pId); //Método para asignar el id del d_pointer
 	unsigned int getID(); //Método para obtener el id del d_pointer
 

@@ -11,6 +11,7 @@
  * metadatos
  */
 dInt::dInt(){
+    dObjectType='I';
 	this->_id = 0;
 	dHeap *heap = dHeap::instancia();
 	d_pointer_size_type *myPointer = heap->dMalloc(INT_SIZE,'I');
