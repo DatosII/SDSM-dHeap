@@ -1,10 +1,14 @@
 #include "listaapp.h"
-
+/**
+ * @brief ListaApp::ListaApp, constructor de la clase
+ */
 ListaApp::ListaApp(){
     this->_head=NULL;
     this->_tail=NULL;
 }
-
+/**
+ * @brief ListaApp::~ListaApp, destructor de la clase
+ */
 ListaApp::~ListaApp(){
     if(_head != 0){
         NodoApp *current = _head;
@@ -19,7 +23,10 @@ ListaApp::~ListaApp(){
     }
 }
 
-
+/**
+ * @brief ListaApp::insertData, Inserta el dato solicitado
+ * @param pNodo
+ */
 void ListaApp::insertData(NodoApp *pNodo){
     if (_head == 0){
         _head = _tail = pNodo;
@@ -35,8 +42,10 @@ void ListaApp::insertData(NodoApp *pNodo){
     }
 }
 
-
-
+/**
+ * @brief ListaApp::remove, elimina el dato solicitado
+ * @param pID
+ */
 void  ListaApp::remove(unsigned int pID){
     if(_head == 0){ //Lista esta vacia
         return;
@@ -65,6 +74,9 @@ void  ListaApp::remove(unsigned int pID){
     }
 }
 
+/**
+ * @brief ListaApp::format, Elimina todos los elementos de la lista
+ */
 void ListaApp::format(){
     if(_head != 0){
         NodoApp *current = _head;
@@ -76,13 +88,15 @@ void ListaApp::format(){
             delete current;
             current = next;
         }
-        _head = NULL;
+        _head = _tail = NULL;
     }
 }
 
-
-
-
+/**
+ * @brief ListaApp::find, Busca un elemento de la lista
+ * @param pData
+ * @return el nodo
+ */
 NodoApp* ListaApp::find(unsigned int pData){
         if(_head != 0){
             NodoApp *temp = _head;

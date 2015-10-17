@@ -35,8 +35,6 @@ dHeap::dHeap(void* pListServer, void* pListMetadata)
     listaDeServidores = pListServer;
 }
 
-
-
 /**
  * @brief dHeap::instancia Metodo que limita el numero
  * de instancias de esta clase a solo una.
@@ -50,8 +48,6 @@ dHeap* dHeap::instancia(void *pListServer, void *pListMetadata)
     return miInstancia;
 }
 
-
-
 /**
  * @brief dHeap::instancia metodo sobrecargado que
  * retorna la instancia unica del dHeap
@@ -63,7 +59,6 @@ dHeap* dHeap::instancia()
 }
 
 
-
 /**
  * @brief dHeap::getListaDeServidores Getter que retorna la lista
  * con las conexiones a los SDS.
@@ -73,13 +68,13 @@ void* dHeap::getListaDeServidores(){
     return listaDeServidores;
 }
 
-
-
+/**
+ * @brief dHeap::getListaMD, obtiene la lista de metadatos
+ * @return
+ */
 void* dHeap::getListaMD(){
     return metadatos;
 }
-
-
 
 /**
  * @brief Método que reserva espacio en algun SDSMNode conectado
@@ -110,8 +105,6 @@ d_pointer_size_type* dHeap::dMalloc(unsigned int size, char type){
         return pointer;
 }
 
-
-
 /**
  * @brief Método que permite almacenar bytes dentro de algun espacio reservado
  *
@@ -126,13 +119,15 @@ d_pointer_size_type* dHeap::dMalloc(unsigned int size, char type){
  * @return
  */
 unsigned char* dHeap::dSet(d_pointer_size_type* pPointer, unsigned char* pBytes, unsigned char* pByStream){
-
     unsigned char* _ip = pPointer->getIp();
     unsigned char* _puerto = this->shortToBytes((unsigned short)pPointer->getPuerto());
 
     unsigned char _arreglo[] = DSET;
     unsigned char* ptr = _arreglo;
-	unsigned char* _message = this->makedSet(ptr, pPointer->getIpBytes(),_puerto,intToBytes(pPointer->getPtr()),pBytes,pByStream);
+
+    unsigned int _realAddress = addressInSDS(pPointer->getPtr());
+    unsigned char *bytesAddress = intToBytes(_realAddress);
+    unsigned char* _message = this->makedSet(ptr, pPointer->getIpBytes(),_puerto,bytesAddress,pBytes,pByStream);
 
 	bool flag = true;
 	unsigned char *pData;
@@ -164,8 +159,13 @@ unsigned char* dHeap::dSet(d_pointer_size_type* pPointer, unsigned char* pBytes,
     }
 }
 
-
-
+/**
+ * @brief dHeap::dGet, Obtiene un get del SDS
+ * @param pPointer
+ * @param pBytes
+ * @param pBytesAddress
+ * @return el dato requerido
+ */
 unsigned char *dHeap::dGet(d_pointer_size_type *pPointer, unsigned char *pBytes, unsigned char *pBytesAddress){
 
     unsigned char* _ip = pPointer->getIp();
@@ -203,8 +203,6 @@ unsigned char *dHeap::dGet(d_pointer_size_type *pPointer, unsigned char *pBytes,
         return CERO;
     }
 }
-
-
 
 /**
  * @brief dHeap::dFree
@@ -254,8 +252,6 @@ void dHeap::dFree(d_pointer_size_type* toFree){
     }
 }
 
-
-
 /**
  * @brief Método reserva espacio en los SDSMMemoryNode mediante el dCalloc
  *
@@ -300,7 +296,7 @@ unsigned int dHeap::request(unsigned int size, d_pointer_size_type* pPointer){
 			Returned= (unsigned char*)tmp->getMsg();
 			tmp->setFlag(CERO);
 			pthread_mutex_unlock(&mutexTemporal);
-			if(Returned[CERO]==UNO){
+            if(Returned[CERO]==UNO){
 				offset += tmp->getTotal();
 				tmp=tmp->getNext();
 				mutexTemporal =tmp->getMutex();
@@ -323,8 +319,6 @@ unsigned int dHeap::request(unsigned int size, d_pointer_size_type* pPointer){
     }
 }
 
-
-
 /**
  * @brief Método que obtiene la representación en bytes de un int
  *
@@ -338,8 +332,6 @@ unsigned char* dHeap::intToBytes(unsigned int pInt){
         bytes[index]=pInt>>(OCHO*byte)&0xFF;
     return bytes;
 }
-
-
 
 /**
  * @brief Método que obtiene obtiene la representacion en bytes de un dato
@@ -359,7 +351,6 @@ unsigned char *dHeap::floatToBytes(float pFloat){
 
 	return arr;
 }
-
 
 
 /**

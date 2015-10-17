@@ -3,6 +3,9 @@
 
 #include "Object/dobject.h"
 
+/**
+ * @brief The NodoApp class
+ */
 class NodoApp
 {
 private:
@@ -16,10 +19,6 @@ public:
     NodoApp *getNext();
     unsigned int getId();
     dObject* getData();
-
-
-
-
 };
 
 #endif // NODOAPP_H

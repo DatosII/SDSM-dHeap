@@ -1,9 +1,11 @@
 #ifndef LISTAAPP_H
 #define LISTAAPP_H
 
-
 #include "App/nodoapp.h"
 
+/**
+ * @brief The ListaApp class
+ */
 class ListaApp
 {
 private:

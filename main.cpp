@@ -5,10 +5,6 @@
 #include "Listas/linkedlist.h"
 #include "Listas/linkedlistmd.h"
 #include "/home/jairodaniel_23/QT Projects/SDSM-dHeap/pugixml-1.6/src/pugixml.cpp"
-#include "Object/dint.h"
-#include "Object/dchar.h"
-#include "Object/dfloat.h"
-#include "Object/dstring.h"
 #include "App/App.h"
 
 #define SDSCONFIG "SDSConfiguration"

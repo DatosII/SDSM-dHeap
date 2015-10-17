@@ -12,28 +12,30 @@
 #include "listaapp.h"
 #include "nodoapp.h"
 
-#define pString "string"
-#define pInt "int"
-#define pChar "char"
-#define pFloat "float"
-#define pInsert "insert"
-#define pDelete "delete"
-#define pFormat "format"
-#define pGet "get"
-#define pExit "exit"
-#define pMsgWelcome "Enter your choice, between insert, delete, format, get or exit: "
-#define pMsgInsertTypeData "Now, enter the type of the data, between char, string, float or int: "
-#define pMsgInsertData "Now, write your data:"
-#define pMsgInsert "Your data are inserted, and the data id is: "
-#define pMsgId "Now, insert the data id: "
-#define pMsgDelete "Your data are deleted"
-#define pMsgFormatData "All data are deleted"
-#define pMsgDataDontExist "Don't exist any data with this id"
-#define pMsgGetData "Your Data is: "
+#define STRING "string"
+#define INT "int"
+#define CHAR "char"
+#define FLOAT "float"
+#define INSERT "insert"
+#define DELETE "delete"
+#define FORMAT "format"
+#define GET "get"
+#define EXIT "exit"
+#define MSGWELCOME "Enter your choice, between insert, delete, format, get or exit: "
+#define MSGINSERTTYPEDATA "Now, enter the type of the data, between char, string, float or int: "
+#define MSGINSERTDATA "Now, write your data:"
+#define MSGINSERT "Your data are inserted, and the data id is: "
+#define MSGID "Now, insert the data id: "
+#define MSGDELETE "Your data are deleted"
+#define MSGFORMATDATA "All data are deleted"
+#define MSGDATADONTEXISTS "Don't exist any data with this id"
+#define MSGGETDATA "Your Data is: "
 
-
+/**
+ * @fiee
+ * @brief The App class
+ */
 class  App{
-
 private:
     std::string pdata;
     std::string choice;

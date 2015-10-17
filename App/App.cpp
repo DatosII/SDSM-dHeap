@@ -15,23 +15,23 @@ App::App(){
  */
 void App::solicitud(){
     do{
-        std::cout << pMsgWelcome << std::endl;
+        std::cout << MSGWELCOME << std::endl;
         std::getline (std::cin , choice);
     }
-    while( (choice != pInsert) && (choice != pDelete) && (choice != pFormat) && (choice != pGet) && (choice != pExit));
-    if(choice== pInsert){
+    while( (choice != INSERT) && (choice != DELETE) && (choice != FORMAT) && (choice != GET) && (choice != EXIT));
+    if(choice== INSERT){
         insertData();
     }
-    else if (choice == pDelete){
+    else if (choice == DELETE){
         deleteData();
     }
-    else if (choice == pFormat){
+    else if (choice == FORMAT){
         formatData();
     }
-    else if (choice == pGet){
+    else if (choice == GET){
         getData();
     }
-    else if (choice== pExit)
+    else if (choice== EXIT)
         exit(0);
     solicitud();
 }
@@ -42,39 +42,39 @@ void App::solicitud(){
  */
 void App::insertData(){
     do{
-        std::cout << pMsgInsertTypeData << std::endl;
+        std::cout << MSGINSERTTYPEDATA << std::endl;
         std::getline (std::cin , type);
     }
-    while( (type != pChar) && (type != pString) && (type != pFloat) && (type != pInt) );
-    std::cout << pMsgInsertData << std::endl;
+    while( (type != CHAR) && (type != STRING) && (type != FLOAT) && (type != INT) );
+    std::cout << MSGINSERTDATA << std::endl;
     std::getline (std::cin , pdata);
-    if (type == pChar){
+    if (type == CHAR){
         char data;
         try{
             data = boost::lexical_cast<char>(pdata);
             dChar *myChar = new dChar();
             *myChar=data;
             this->listData->insertData(new NodoApp(myChar));
-            std::cout << pMsgInsert << myChar->getID() << std::endl;
+            std::cout << MSGINSERT << myChar->getID() << std::endl;
         }
         catch(boost::bad_lexical_cast & e){
             std::cout << e.what() << std::endl;
         }
     }
-    else if (type == pString){
+    else if (type == STRING){
         dString *myString = new dString();
         *myString = pdata;
         this->listData->insertData(new NodoApp(myString));
-        std::cout << pMsgInsert << myString->getID() << std::endl;
+        std::cout << MSGINSERT << myString->getID() << std::endl;
     }
-    else if ( type == pFloat){
+    else if ( type == FLOAT){
         float data;
         try{
             data = boost::lexical_cast<float>(pdata);
             dFloat *myFloat = new dFloat();
             *myFloat = data;
             this->listData->insertData(new NodoApp(myFloat));
-            std::cout << pMsgInsert << myFloat->getID() << std::endl;
+            std::cout << MSGINSERT << myFloat->getID() << std::endl;
         }
         catch(boost::bad_lexical_cast & e){
             std::cout << e.what() << std::endl;
@@ -87,7 +87,7 @@ void App::insertData(){
             dInt *myInt = new dInt();
             *myInt = data;
             this->listData->insertData(new NodoApp(myInt));
-            std::cout << pMsgInsert << myInt->getID() << std::endl;
+            std::cout << MSGINSERT << myInt->getID() << std::endl;
         }
         catch(boost::bad_lexical_cast & e){
             std::cout << e.what() << std::endl;
@@ -103,7 +103,7 @@ void App::insertData(){
  * datos solicitados
  */
 void App::deleteData(){
-    std::cout << pMsgId << std::endl;
+    std::cout << MSGID << std::endl;
     std::getline (std::cin , pdata);
     unsigned int data;
     try{
@@ -112,18 +112,21 @@ void App::deleteData(){
             if (temp!=NULL){
                 temp->getData()->deleteData();
                 this->listData->remove(data);
-                std::cout <<  pMsgDelete << std::endl;
+                std::cout <<  MSGDELETE << std::endl;
             }
             else
-                std::cout <<  pMsgDataDontExist << std::endl;
+                std::cout <<  MSGDATADONTEXISTS << std::endl;
         }
         catch(boost::bad_lexical_cast & e){
             std::cout << e.what() << std::endl;
         }
 }
-
+/**
+ * @brief App::getData, obtiene un dato
+ *  Este metodo permite obtener un dato solicitado a partir del id
+ */
 void App::getData(){
-    std::cout << pMsgId << std::endl;
+    std::cout << MSGID << std::endl;
     std::getline (std::cin , pdata);
     unsigned int data;
     try{
@@ -131,24 +134,27 @@ void App::getData(){
             NodoApp *temp = this->listData->find(data);
             if (temp!=NULL){
                 if(temp->getData()->getDObjectType()=='C')
-                    std::cout << pMsgGetData << **(dChar*)temp->getData() << std::endl;
+                    std::cout << MSGGETDATA << **(dChar*)temp->getData() << std::endl;
                 else if(temp->getData()->getDObjectType()=='S')
-                    std::cout << pMsgGetData << **(dString*)temp->getData() << std::endl;
+                    std::cout << MSGGETDATA << **(dString*)temp->getData() << std::endl;
                 else if(temp->getData()->getDObjectType()=='F')
-                    std::cout << pMsgGetData << **(dFloat*)temp->getData() << std::endl;
+                    std::cout << MSGGETDATA << **(dFloat*)temp->getData() << std::endl;
                 else
-                    std::cout << pMsgGetData << **(dInt*)temp->getData() << std::endl;
+                    std::cout << MSGGETDATA << **(dInt*)temp->getData() << std::endl;
             }
             else
-                std::cout <<  pMsgDataDontExist << std::endl;
+                std::cout <<  MSGDATADONTEXISTS << std::endl;
         }
         catch(boost::bad_lexical_cast & e){
             std::cout << e.what() << std::endl;
         }
 }
 
-
+/**
+ * @brief App::formatData, Elimina todos los datos
+ * Este metodo se encarga de eliminar todos los elementos
+ */
 void App::formatData(){
     this->listData->format();
-    std::cout << pMsgFormatData << std::endl;
+    std::cout << MSGFORMATDATA << std::endl;
 }

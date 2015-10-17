@@ -12,7 +12,7 @@ Node_LL::Node_LL(const std::string &pData1, const std::string &pData2){
 	this->setUpBytesIP();
     this->_PUERTO = atoi(pData2.c_str());
     this->_next = CERO;
-
+    this->_previous=NULL;
     mutex = PTHREAD_MUTEX_INITIALIZER;
 
     parametros =  new parametrosInicioCliente();
@@ -141,9 +141,9 @@ void Node_LL::setDimension(char* pBuffer){
         this->_final = (*(unsigned int*)pBuffer)-1;
         this->_total = (*(unsigned int*)pBuffer);
     }
-    else{
-        this->_total = *(unsigned int*)pBuffer;
+    else{        
         this->_inicio = this->getPrevious()->getFinal()+1;
+        this->_total = *(unsigned int*)pBuffer;
         this->_final = this->_inicio + this->_total-1;
     }
 }
@@ -191,7 +191,6 @@ void* Node_LL::conectarClientes(void* pParametros){
 
         while(true){
             //Por medio de la bandera evalua el buffer hasta encontrar el siguiente recv()
-			//recv(cliente,buffer,BUFFSIZE,MSG_PEEK);
 
             //Accesamos a la memoria compartida por el dHeap y el Nodo_LL
             pthread_mutex_lock(&mutexTemporal);
@@ -203,22 +202,10 @@ void* Node_LL::conectarClientes(void* pParametros){
                 send(cliente,((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->getMsg()
                      ,BUFFSIZE,CERO);
                 recv(cliente,buffer,BUFFSIZE,CERO);
-//                if(strcmp(buffer, CONECTADO) == CERO ){
 
-//                    send(cliente,SI,BUFFSIZE,CERO);
-//                    send(cliente,((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->getMsg()
-//                         ,BUFFSIZE,CERO);
-//                    recv(cliente,buffer,BUFFSIZE,CERO);
-//                    ((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->setMsg(buffer);
-//                    ((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->setFlag(TRES);
-
-//                }
-
-//                else{
 
                     ((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->setMsg(buffer);
                     ((Node_LL*)((parametrosInicioCliente*)pParametros)->salidaDeInfo)->setFlag(TRES);
-//                }
             }
 
             pthread_mutex_unlock(&mutexTemporal);

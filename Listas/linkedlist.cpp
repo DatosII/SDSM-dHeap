@@ -21,7 +21,7 @@ void LinkedList::insert(const string &pData1,const string &pData2) {
     }
     else{
         Node_LL *tmp = _head;
-        while((*tmp).getNext() != CERO){
+        while(tmp->getNext() != CERO){
             tmp = tmp->getNext();
         }
         tmp->setNext(newNode);
