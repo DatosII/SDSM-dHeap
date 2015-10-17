@@ -6,14 +6,15 @@
 class NodoApp
 {
 private:
-    dObject data;
-      NodoApp *next;
+    dObject *_data;
+    NodoApp *_next;
+    unsigned int _id;
 
 public:
-    NodoApp();
-
+    NodoApp(dObject *pDObject);
     void setNext(NodoApp *pNext);
-    dObject getNext();
+    NodoApp *getNext();
+    unsigned int getId();
 
 
 

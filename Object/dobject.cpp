@@ -37,7 +37,9 @@ void dObject::setID(unsigned int pId){
 	this->_id = pId;
 }
 
-
+unsigned int dObject::getID(){
+    return this->_id;
+}
 
 d_pointer_size_type *dObject::getdPointer(){
     dHeap *heap = dHeap::instancia();
@@ -51,13 +53,3 @@ void dObject::deleteData(){
     heap->dFree(this->getdPointer());
 
 }
-
-
-
-
-
-
-
-
-
-

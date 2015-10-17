@@ -8,9 +8,11 @@
 #include "Object/dchar.h"
 #include "Object/dfloat.h"
 #include "Object/dstring.h"
+#include "listaapp.h"
+#include "nodoapp.h"
 
 
-class App
+class  App
 {
 private:
     std::string pdata;
@@ -31,6 +33,7 @@ private:
     std::string pMsgDeleteData= "Now, insert the data to delete:";
     std::string pMsgDelete= "Your data are deleted";
     std::string pMsgFormat= "All data are deleted" ;
+    ListaApp *listData;
     void insertData();
     void deleteData();
 public:

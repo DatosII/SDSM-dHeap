@@ -2,8 +2,8 @@
 /**
  * @brief App::App, constructor de la clase
  */
-App::App()
-{
+App::App(){
+    this->listData = new ListaApp();
 }
 
 /**
@@ -51,6 +51,7 @@ void App::insertData(){
             data = boost::lexical_cast<char>(pdata);
             dChar *myChar = new dChar();
             *myChar=data;
+            this->listData->insertData(new NodoApp(myChar));
             std::cout << this->pMsgInsert << std::endl;
         }
         catch(boost::bad_lexical_cast & e){
@@ -60,6 +61,7 @@ void App::insertData(){
     else if (type == this->pString){
         dString *myString = new dString();
         *myString = pdata;
+        this->listData->insertData(new NodoApp(myString));
         std::cout << this->pMsgInsert << std::endl;
     }
     else if ( type == this->pFloat){
@@ -68,6 +70,7 @@ void App::insertData(){
             data = boost::lexical_cast<float>(pdata);
             dFloat *myFloat = new dFloat();
             *myFloat = data;
+            this->listData->insertData(new NodoApp(myFloat));
             std::cout << this->pMsgInsert << std::endl;
         }
         catch(boost::bad_lexical_cast & e){
@@ -80,6 +83,7 @@ void App::insertData(){
             data = boost::lexical_cast<int>(pdata);
             dInt *myInt = new dInt();
             *myInt = data;
+            this->listData->insertData(new NodoApp(myInt));
             std::cout << this->pMsgInsert << std::endl;
         }
         catch(boost::bad_lexical_cast & e){

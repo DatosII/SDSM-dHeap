@@ -2,11 +2,6 @@
 #define D_POINTER_SIZE_TYPE_H
 
 #include <cstdlib>
-//#include "dobject.h"
-//#include "dint.h"
-//#include "dchar.h"
-//#include "dstring.h"
-//#include "dfloat.h"
 
 #define CERO 0
 
@@ -26,7 +21,7 @@ private:
 public:
 
     d_pointer_size_type();
-	unsigned int getID()const;
+    unsigned int getID()const;
 	unsigned int getPtr()const;
     int getSpace();
     char getType();

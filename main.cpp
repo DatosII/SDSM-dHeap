@@ -63,8 +63,8 @@ int main(){
 	LinkedList* listaCliente = new LinkedList();
 	LinkedListMD* listaMetadatos = new LinkedListMD();
 	getNodes(PATH,listaCliente);
-	getFrecuency(PATH,listaMetadatos);
-	dHeap *heap = dHeap::instancia(listaCliente, listaMetadatos);
+    getFrecuency(PATH,listaMetadatos);
+    dHeap *heap = dHeap::instancia(listaCliente, listaMetadatos);
 
     App *myApp = new App();
     myApp->solicitud();

@@ -9,8 +9,8 @@ private:
     NodoApp* _tail;
 public:
     ListaApp();
-    void insertData(dObject pData);
-    void deleteData();
+    void insertData(NodoApp *pNodo);
+    bool deleteData();
 };
 
 #endif // LISTAAPP_H

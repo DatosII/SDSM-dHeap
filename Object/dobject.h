@@ -11,11 +11,11 @@
 
 class dObject{
 protected:
-	unsigned int _id;
+    unsigned int _id;
 private:
     d_pointer_size_type *getdPointer();
 	char dObjectType;
-	void* dObjectPuntData;
+    void* dObjectPuntData;
 
 public:
 	dObject();

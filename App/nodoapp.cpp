@@ -1,15 +1,20 @@
 #include "nodoapp.h"
 
-NodoApp::NodoApp(){
-    this->next = 0;
-    //this->data=NULL;
+NodoApp::NodoApp(dObject *pDObject){
+    this->_data=pDObject;
+    this->_next = NULL;
+    this->_id=pDObject->getID();
 }
 
 void NodoApp::setNext(NodoApp *pNext){
-    this->next=pNext;
+    this->_next=pNext;
 }
 
-dObject NodoApp::getNext(){
-    return this->data;
+NodoApp* NodoApp::getNext(){
+    return this->_next;
+}
+
+unsigned int NodoApp::getId(){
+    return _id;
 }
 
